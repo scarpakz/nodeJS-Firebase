@@ -1,5 +1,4 @@
 import express from 'express';
-
 import {
   createProduct,
   getProduct,
@@ -7,21 +6,28 @@ import {
   updateProduct,
   deleteProduct,
 } from '../Controllers/productControllers.js';
-
 import {
   getEmployees
 } from '../Controllers/employeeControllers.js';
+import { 
+  userAuth,
+  authVerify
+} from '../Controllers/authController.js';
 
 const router = express.Router();
 
+// Authentication
+router.post('/login', userAuth)
+
+// Breakdown routes into separate files
 // Product Routes
-router.get('/', getProducts);
-router.post('/new', createProduct);
-router.get('/product/:id', getProduct);
-router.put('/update/:id', updateProduct);
-router.delete('/delete/:id', deleteProduct);
+router.get('/products', authVerify, getProducts);
+router.post('/new', authVerify, createProduct);
+router.get('/product/:id', authVerify, getProduct);
+router.put('/update/:id', authVerify, updateProduct);
+router.delete('/delete/:id', authVerify, deleteProduct);
 
 // Employee Routes
-router.get('/employees', getEmployees);
+router.get('/employees', authVerify, getEmployees);
 
 export default router;

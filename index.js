@@ -11,7 +11,6 @@ app.use(express.json());
 // Routes
 app.use('/api', routes);
 
-
 app.listen(config.port, () =>
   console.log(`Server is live @ ${config.hostUrl}`),
 );
