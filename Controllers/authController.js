@@ -12,7 +12,10 @@ const db = getFirestore(firebase);
  * Authenticate user
  */
 export const userAuth = async (req, res) => {
-    const user = { id: 1 }
+    const user = { 
+        email: req.body.email,
+        password: req.body.password
+     }
     const token = jwt.sign({user}, process.env.SECRET_KEY);
     res.json({
         token

@@ -10,6 +10,7 @@ import {
   updateDoc,
   deleteDoc,
 } from 'firebase/firestore';
+import jwt from 'jsonwebtoken';
 
 const db = getFirestore(firebase);
 
@@ -31,25 +32,33 @@ export const createProduct = async (req, res, next) => {
  */
 export const getProducts = async (req, res, next) => {
     try {
-        const products = await getDocs(collection(db, 'Product'));
-        const productArray = [];
+        jwt.verify(req.token, process.env.SECRET_KEY, async (err, data) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                const products = await getDocs(collection(db, 'Product'));
+                const productArray = [];
+                
+                if (products.empty) {
+                    res.status(400).send('No Products found');
+                } else {
+                    products.forEach((doc) => {
+                        const product = new Product(
+                            doc.id,
+                            doc.data().name,
+                            doc.data().price,
+                            doc.data().retailer,
+                            doc.data().amountInStock,
+                        );
+                        productArray.push(product);
+                    });
+            
+                    res.status(200).send(productArray);
+                }
+                next();
+            }
+        })
         
-        if (products.empty) {
-            res.status(400).send('No Products found');
-        } else {
-            products.forEach((doc) => {
-                const product = new Product(
-                    doc.id,
-                    doc.data().name,
-                    doc.data().price,
-                    doc.data().retailer,
-                    doc.data().amountInStock,
-                );
-                productArray.push(product);
-            });
-    
-            res.status(200).send(productArray);
-        }
     } catch (error) {
         res.status(400).send(error.message);
     }
