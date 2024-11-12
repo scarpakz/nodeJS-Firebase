@@ -1,10 +1,4 @@
-import {
-    getFirestore
-} from 'firebase/firestore';
-import firebase from '../firebase.js';
 import jwt from 'jsonwebtoken';
-
-const db = getFirestore(firebase);
 
 /**
  * Authenticate user
