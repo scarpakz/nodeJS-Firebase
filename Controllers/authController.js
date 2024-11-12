@@ -1,7 +1,5 @@
 import {
-    getFirestore,
-    collection,
-    getDocs
+    getFirestore
 } from 'firebase/firestore';
 import firebase from '../firebase.js';
 import jwt from 'jsonwebtoken';
@@ -17,7 +15,7 @@ export const userAuth = async (req, res) => {
         password: req.body.password
      }
     const token = jwt.sign({user}, process.env.SECRET_KEY);
-    res.json({
+    res.status(200).send({
         token
     });
 }
