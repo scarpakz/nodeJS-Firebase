@@ -33,7 +33,7 @@ router.delete('/delete/:id', authVerify, deleteProduct);
 // Employee Routes
 router.get('/employees', authVerify, getEmployees);
 
-// Test Router
+// Test Router Only
 router.get('/test', test);
 
 export default router;
