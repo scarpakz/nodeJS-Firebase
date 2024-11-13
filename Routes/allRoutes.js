@@ -13,6 +13,9 @@ import {
   userAuth,
   authVerify
 } from '../Controllers/authController.js';
+import {
+  test
+} from '../Controllers/testController.js';
 
 const router = express.Router();
 
@@ -29,5 +32,8 @@ router.delete('/delete/:id', authVerify, deleteProduct);
 
 // Employee Routes
 router.get('/employees', authVerify, getEmployees);
+
+// Test Router
+router.get('/test', test);
 
 export default router;
