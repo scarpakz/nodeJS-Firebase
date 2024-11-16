@@ -11,8 +11,8 @@ app.use(express.json());
 // Routes
 app.use('/api', routes);
 
-app.listen(config.port, () =>
+const server = app.listen(config.port, () =>
   console.log(`Server is live @ ${config.hostUrl}`),
 );
 
-export default app
+export default server

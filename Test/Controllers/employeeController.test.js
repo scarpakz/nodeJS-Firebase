@@ -1,25 +1,24 @@
 import request from 'supertest'
-import app from '../../index.js'
+import server from '../../index.js'
 
 let token
 
 beforeAll(async () => {
-    const response = await request(app).post('/api/login').send({
+    const response = await request(server).post('/api/login').send({
         email: 'test@email.com',
         password: 'testpassword'
     })
     token = response.body.token
 })
+afterAll(async () => { server.close() })
 
 describe('GET /employees', () => {
-    describe('Get all list of employees', () => {
-        test('getEmployees Controller should return 200 and array of employees', async () => {
-            const response = await request(app)
-            .get('/api/employees')
-            .set('Authorization', `Bearer ${token}`)
+    test('getEmployees Controller should return 200 and array of employees', async () => {
+        const response = await request(server)
+        .get('/api/employees')
+        .set('Authorization', `Bearer ${token}`)
 
-            expect(response.statusCode).toBe(200)
-            expect(response.body).toEqual(expect.any(Array))
-        })
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toEqual(expect.any(Array))
     })
 })
